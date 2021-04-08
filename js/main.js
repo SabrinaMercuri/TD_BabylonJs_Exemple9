@@ -6,6 +6,7 @@ let scene;
 // vars for handling inputs
 let inputStates = {};
 let tank;
+let tir = [];
 
 window.onload = startGame;
 
@@ -19,11 +20,15 @@ function startGame() {
     modifySettings();
 
     tank = scene.getMeshByName("heroTank");
-
+    setInterval(createBullets,1000); 
     engine.runRenderLoop(() => {
         let deltaTime = engine.getDeltaTime(); // remind you something ?
 
         tank.move();
+
+        for(let j=0;j<tir.length;j++){
+            tir[j].move();
+        }
 
         let heroDude = scene.getMeshByName("heroDude");
         if(heroDude)
@@ -128,6 +133,12 @@ function createBullets(scene) {
 
     bullet.frontVector = tank.frontVector;
 
+    tir[tir.length] = bullet;
+
+    bullet.move = () =>{
+        bullet.moveWithCollisions(bullet.frontVector.multiplyByFloats(2,2,2));
+    }
+
 }
 
 function createGround(scene) {
@@ -203,7 +214,7 @@ function createFollowCamera(scene, target) {
 
 let zMovement = 5;
 function createTank(scene) {
-    tank = new BABYLON.MeshBuilder.CreateBox("heroTank", {height:8, depth:6, width:6}, scene);
+    tank = new BABYLON.MeshBuilder.CreateBox("heroTank", {height:4, depth:3, width:3}, scene);
     let tankMaterial = new BABYLON.StandardMaterial("tankMaterial", scene);
     tankMaterial.diffuseColor = new BABYLON.Color3.Red;
     tankMaterial.emissiveColor = new BABYLON.Color3.Blue;
