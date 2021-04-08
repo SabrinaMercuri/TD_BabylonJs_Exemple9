@@ -9,4 +9,4 @@
 - Ajout de box et de cylindre pour imiter des obstacles (avec texture)   
 
 
-- Essai de tir 
+- Ajout de tir : la tank tire toutes les secondes
